@@ -1,15 +1,19 @@
 {
-    "prompts": {
-        "name": {
+    "prompts":
+    {
+        "name":
+        {
             "type": "string",
             "required": true,
             "message": "Project name"
         },
-        "test": {
+        "test":
+        {
             "type": "confirm",
             "message": "Unit test?"
         },
-        "version": {
+        "version":
+        {
             "type": "input",
             "message": "project's version",
             "default": "1.0.0"

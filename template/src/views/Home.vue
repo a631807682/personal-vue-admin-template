@@ -3,7 +3,7 @@
 		<!-- 头部导航 -->
 		<el-col :span="24" class="header">
 			<el-col :span="10" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">
-				{{collapsed?'':sysName }}
+				\{{collapsed?'':sysName }}
 			</el-col>
 			<el-col :span="10">
 				<div class="tools" @click.prevent="collapse">
@@ -13,7 +13,7 @@
 			<el-col :span="4" class="userinfo">
 				<el-dropdown trigger="hover">
 					<span class="el-dropdown-link userinfo-inner">
-			          <img :src="this.sysUserAvatar" /> {{sysUserName}}
+			          <img :src="this.sysUserAvatar" /> \{{sysUserName}}
 			          </span>
 					<el-dropdown-menu slot="dropdown">
 						<el-dropdown-item>设置</el-dropdown-item>
@@ -30,10 +30,10 @@
 				<div class="grid-content bg-purple-light">
 					<!-- 子导航 -->
 					<el-col :span="24" class="breadcrumb-container">
-						<strong class="title">{{$route.name}}</strong>
+						<strong class="title">\{{$route.name}}</strong>
 						<el-breadcrumb separator="/" class="breadcrumb-inner">
 							<el-breadcrumb-item v-for="item in $route.matched" :key="item.path">
-								{{ item.name }}
+								\{{ item.name }}
 							</el-breadcrumb-item>
 						</el-breadcrumb>
 					</el-col>
