@@ -1,6 +1,19 @@
+/**
+ * 正则
+ */
 export const urlReg = new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/);
 
+/**
+ * 数据对象拷贝
+ * @param  {[type]} obj [description]
+ * @return {[type]}     [description]
+ */
+export const deepCopy = (obj) => JSON.parse(JSON.stringify(obj));
 
+/**
+ * 本地存储
+ * @type {Object}
+ */
 export const localStore = {
   userKey: 'user',
   setItem: function(key, value) {
@@ -31,4 +44,34 @@ export const localStore = {
   removeUser: function() {
     localStorage.removeItem(this.userKey)
   }
-}
+};
+
+/**
+ * 权限菜单计算
+ * @type {Object}
+ */
+export const menuHelper = {
+  join(p1, p2) {
+    if (p1 === '/') return p2;
+    return p1 + '/' + p2;
+  },
+  allowed(parent, child, fullPath) {
+    let menuPath = this.join(parent, child);
+    return fullPath.indexOf(menuPath) === 0
+  },
+  genMenues(parents, result = [], prePath = '/') {
+    console.log('genMenues', this)
+    let menus = [];
+    let ps = parents.filter(p => !p.hidden && p.auth);
+    for (let p of ps) {
+      let menu = { path: this.join(prePath, p.path), label: p.name };
+      if (p.children && p.children.length > 0) {
+        menu.children = this.genMenues(p.children, result, p.path);
+      }
+      menus.push(menu);
+    }
+    return menus;
+  }
+};
+
+

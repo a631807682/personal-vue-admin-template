@@ -26,8 +26,8 @@ export default {
     return {
       logining: false,
       loginForm: {
-        username: 'chenrui@ivvi.com',
-        password: '123456'
+        username: '',
+        password: ''
       },
       rules: {
         username: [
@@ -50,7 +50,7 @@ export default {
           let params = this.loginForm;
           userService.login(params).then(user => {
 
-            console.log('user', user)
+            console.log('login user', user)
             // localStorage.setItem('user', JSON.stringify(user));
             localStore.saveUser(user);
 

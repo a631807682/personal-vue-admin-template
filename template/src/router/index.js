@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import { constantRouterMap } from 'src/router/constant'
-import { generateRoutesFromMenu } from 'src/router/async'
+import { asyncRouterMap, generateRoutesFromMenu } from 'src/router/async'
 
 import { SET_LOCAL } from 'src/store/mutation-types'
 import store from 'src/store'
@@ -32,22 +32,21 @@ router.beforeEach((to, from, next) => {
   if (!user) {
     next({ path: '/login' })
   } else {
-    //用户权限
-    let { roles } = user;
-    //测试权限
-    roles = [{
-      menu: '/user'
-    }, {
-      menu: '/category'
-    }]
-
     //异步挂载路由
     if (!loadRoutes) {
-      let menus = roles.map(r => r.menu);
-      //可访问路由
-      const accessedRouters = generateRoutesFromMenu(menus);
+      let accessedRouters = [];
+      //用户权限
+      let { role } = user;
 
-      console.log('accessedRouters', accessedRouters)
+      if (!role.isSuper) {
+        //可访问路由
+        accessedRouters = generateRoutesFromMenu(role.menus);
+      } else {
+        accessedRouters = asyncRouterMap;
+      }
+      
+      console.log('accessedRouters', accessedRouters )
+
       if (accessedRouters.length > 0) {
         //添加路由
         router.addRoutes(accessedRouters);

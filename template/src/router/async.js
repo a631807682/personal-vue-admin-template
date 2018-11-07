@@ -1,55 +1,44 @@
 import Home from 'src/views/Home'
 import User from 'src/views/pages/User'
+import Role from 'src/views/pages/Role'
 import GroupRouter from 'src/views/pages/PageGroupRouter'
-// //广告
-// import ADList from 'src/views/pages/Advertisement/List'
-// import ADAdd from 'src/views/pages/Advertisement/Add'
-// import ADEdit from 'src/views/pages/Advertisement/Edit'
 
+// 个人中心
+import PersonalPassword from 'src/views/pages/Personal/Password'
+
+//公共类
+import { menuHelper } from 'src/lib/utils'
 
 //异步挂载的路由
 //动态需要根据权限加载的路由表 
 export const asyncRouterMap = [{
     path: '/',
+    auth: false,
+    hidden: true,
+    name: '首页',
+    component: Home,
+  }, {
+    path: '/system',
     auth: true,
     component: Home,
     name: '系统管理',
     iconCls: 'fa el-icon-setting',
     children: [
-      { path: '/user', component: User, name: '管理员用户管理' },
-      { path: '/test', component: User, name: '不应该出现的栏目' }
+      { path: 'user', component: User, name: '用户管理', auth: true },
+      { path: 'role', component: Role, name: '角色管理', auth: true },
     ]
   },
-  // {
-  //   path: '/',
-  //   auth: false,
-  //   component: Home,
-  //   name: '投影仪管理',
-  //   iconCls: 'fa el-icon-printer',
-  //   children: [{
-  //       path: '/upgrade/app',
-  //       name: '升级管理',
-  //       component: GroupRouter,
-  //       redirect: '/upgrade/app/list',
-  //       children: [
-  //         { path: 'list', component: APPList, name: '更新包管理' },
-  //         { path: 'add', component: APPAdd, name: '添加更新包', hidden: true },
-  //         { path: 'edit/:id', component: APPEdit, name: '编辑更新包', hidden: true },
-  //       ]
-  //     },
-  //     {
-  //       path: '/ad',
-  //       name: '广告管理',
-  //       component: GroupRouter,
-  //       redirect: '/ad/list',
-  //       children: [
-  //         { path: 'list', component: ADList, name: '广告列表' },
-  //         { path: 'add', component: ADAdd, name: '新增广告', hidden: true },
-  //         { path: 'edit/:id', component: ADEdit, name: '编辑广告', hidden: true },
-  //       ]
-  //     },
-  //   ]
-  // },
+  {
+    path: '/personal',
+    auth: false,
+    hidden: true,
+    component: Home,
+    name: '个人中心',
+    iconCls: 'fa el-icon-setting',
+    children: [
+      { path: 'password', component: PersonalPassword, name: '修改密码', auth: true },
+    ]
+  },
   {
     path: '*',
     auth: false,
@@ -61,14 +50,15 @@ export const asyncRouterMap = [{
 //根据可访问目录生成路由
 export const generateRoutesFromMenu = (roleMenus) => {
   let accessedRouters = [];
-
-  for (let ar of asyncRouterMap) {
+  console.log('roleMenus', roleMenus)
+  for (let __ar of asyncRouterMap) {
+    let ar = Object.assign({}, __ar); // 避免 直接修改了原始对象
     if (!ar.auth) { //不验证权限
       accessedRouters.push(ar);
     } else if (ar.children && ar.children.length > 0) {
       //筛选匹配子菜单
       ar.children = ar.children.filter(c => {
-        return roleMenus.some(m => m == c.path && !c.hidden);
+        return roleMenus.some(m => menuHelper.allowed(ar.path, c.path, m));
       });
       //子菜单存在
       if (ar.children.length > 0) accessedRouters.push(ar);

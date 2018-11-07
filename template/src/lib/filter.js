@@ -8,5 +8,12 @@ export const dateFutureFilter = (time) => {
 
 export const statusFilter = (status) => {
   let same = Status.items.find(s => status === s.value);
-  return same.name || status;
+  return same ? same.name : status;
+}
+
+export const dateFilter = (time) => {
+  if (time == undefined) {
+    return "";
+  }
+  return moment(time).format("YYYY-MM-DD HH:mm:ss");
 }

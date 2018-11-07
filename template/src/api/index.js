@@ -9,16 +9,20 @@ import { localStore } from 'src/lib/utils'
 
 //api
 import * as user from 'src/api/user'
+import * as role from 'src/api/role'
+import * as personal from 'src/api/personal'
+
 import * as upload from 'src/api/upload'
 
 
 // 服务地址
-const { host } = config;
+const { host, backend } = config;
+const backendHost = host + backend;
 
 // 登陆接口正则
 const loginRegex = new RegExp(/^\/user\/signIn/);
 
-axios.defaults.baseURL = host;
+axios.defaults.baseURL = backendHost;
 
 axios.interceptors.request.use(config => {
   if (!loginRegex.test(config.url)) {
@@ -51,7 +55,7 @@ axios.interceptors.response.use(response => {
   } else if (status === 401) { // 跳转登陆
     // console.log('status === 401',data)
     router.replace({
-      path: 'login',
+      path: '/login',
       query: { redirect: router.currentRoute.fullPath }
     })
     return Promise.reject(errorMsg);
@@ -62,8 +66,11 @@ axios.interceptors.response.use(response => {
   }
 })
 
+//api
 export const userService = user;
+export const roleService = role;
+export const personalService = personal;
 
+export const uploadPath = backendHost + upload.uploadPath;
+export const apkUploadPath = backendHost + upload.apkUploadPath;
 
-export const uploadPath = host + upload.uploadPath;
-export const apkUploadPath = host + upload.apkUploadPath;

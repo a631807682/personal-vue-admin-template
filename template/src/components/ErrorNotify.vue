@@ -2,8 +2,6 @@
 	<section v-show="notify"></section>
 </template>
 <script>
-let i = 0;
-
 export default {
 	data() {
 		return {}
