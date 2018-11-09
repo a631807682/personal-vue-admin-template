@@ -16,8 +16,8 @@ import * as upload from 'src/api/upload'
 
 
 // 服务地址
-const { host, backend } = config;
-const backendHost = host + backend;
+const {  backend } = config;
+const backendHost = process.env.API_HOST + backend;
 
 // 登陆接口正则
 const loginRegex = new RegExp(/^\/user\/signIn/);

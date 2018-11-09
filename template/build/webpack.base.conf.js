@@ -14,6 +14,11 @@ module.exports = {
   entry: {
     app: './src/main.js'
   },
+  pugins: [
+    new webpack.DefinePlugin({
+      'process.env.API_HOST': process.env.API_HOST
+    })
+  ],
   output: {
     path: config.build.assetsRoot,
     publicPath: process.env.NODE_ENV === 'production' ? config.build.assetsPublicPath : config.dev.assetsPublicPath,
@@ -34,8 +39,7 @@ module.exports = {
     fallback: [path.join(__dirname, '../node_modules')]
   },
   module: {
-    loaders: [
-      {
+    loaders: [{
         test: /\.vue$/,
         loader: 'vue'
       },
