@@ -6,7 +6,8 @@
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
-    "build": "node build/build.js"
+    "build": "node build/build.js",
+    "scp":"scp -r dist local_deploy.sh root@127.0.0.1:/data/www/"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.4",
