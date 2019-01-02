@@ -58,6 +58,7 @@ export const generateRoutesFromMenu = (roleMenus) => {
     } else if (ar.children && ar.children.length > 0) {
       //筛选匹配子菜单
       ar.children = ar.children.filter(c => {
+        if (!c.auth) return true;
         return roleMenus.some(m => menuHelper.allowed(ar.path, c.path, m));
       });
       //子菜单存在
