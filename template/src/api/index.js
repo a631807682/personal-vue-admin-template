@@ -42,7 +42,7 @@ axios.interceptors.response.use(response => {
   let { response } = error;
   if (!response) {
     //network error
-    store.commit(SET_HTTP_ERROR, 'Network Error');
+    store.commit(SET_HTTP_ERROR, '网络异常');
     return Promise.reject(error)
   }
   let { status, data, config } = response;
