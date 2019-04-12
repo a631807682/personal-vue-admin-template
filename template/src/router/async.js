@@ -23,9 +23,24 @@ export const asyncRouterMap = [{
     component: Home,
     name: '系统管理',
     iconCls: 'fa el-icon-setting',
-    children: [
-      { path: 'user', component: User, name: '用户管理', auth: true },
-      { path: 'role', component: Role, name: '角色管理', auth: true },
+    children: [{
+        path: 'user',
+        component: User,
+        name: '用户管理',
+        auth: true,
+        cmpAuth: [{ key: 'addBtn', name: '添加' }, { key: 'editBtn', name: '编辑' },
+          { key: 'deleteBtn', name: '删除' }, { key: 'vist', name: '查看' }
+        ]
+      },
+      {
+        path: 'role',
+        component: Role,
+        name: '角色管理',
+        auth: true,
+        cmpAuth: [{ key: 'addBtn', name: '添加' }, { key: 'editBtn', name: '编辑' },
+          { key: 'deleteBtn', name: '删除' }, { key: 'vist', name: '查看' }
+        ]
+      },
     ]
   },
   {

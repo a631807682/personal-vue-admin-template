@@ -9,6 +9,8 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 //过滤器
 import { statusFilter } from 'src/lib/filter'
+//自定义指令
+import 'src/directive'
 
 //字体
 import { library } from '@fortawesome/fontawesome-svg-core'

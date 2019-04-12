@@ -2,7 +2,7 @@
   <section>
     <!--工具条-->
     <el-col :span="24" class="toolbar">
-      <el-button class="fright" type="primary" @click="handleAdd">新增</el-button>
+      <el-button class="fright" type="primary" v-permission="'addBtn'" @click="handleAdd">新增</el-button>
     </el-col>
     <!--列表-->
     <el-table :data="users" highlight-current-row style="width: 100%;">
@@ -19,9 +19,11 @@
       <el-table-column prop="createdAt" :formatter="dateTimeFormat" label="创建时间" sortable>
       </el-table-column>
       <el-table-column label="操作" width="150">
-        <template scope="scope" v-if="!scope.row.role.isSuper">
-          <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-          <el-button type="danger" size="small" @click="handleDel(scope.$index, scope.row)">删除</el-button>
+        <template scope="scope">
+          <div v-if="!scope.row.role.isSuper">
+            <el-button size="small" v-permission="'editBtn'" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-button type="danger" v-permission="'deleteBtn'" size="small" @click="handleDel(scope.$index, scope.row)">删除</el-button>
+          </div>
         </template>
       </el-table-column>
     </el-table>

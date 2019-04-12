@@ -2,7 +2,7 @@
   <section>
     <!--工具条-->
     <el-col :span="24" class="toolbar">
-      <el-button type="primary" class="fright" @click="handleOpenAdd">新增</el-button>
+      <el-button type="primary" v-permission="'addBtn'" class="fright" @click="handleOpenAdd">新增</el-button>
     </el-col>
     <!--列表-->
     <el-table :data="roles" highlight-current-row style="width: 100%;">
@@ -16,8 +16,8 @@
       </el-table-column>
       <el-table-column label="操作" width="150">
         <template scope="scope">
-          <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-          <el-button type="danger" size="small" @click="handleDel(scope.$index, scope.row)">删除</el-button>
+          <el-button size="small" v-permission="'editBtn'" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+          <el-button type="danger" v-permission="'deleteBtn'" size="small" @click="handleDel(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>

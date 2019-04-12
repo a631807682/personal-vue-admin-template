@@ -60,16 +60,25 @@ export const menuHelper = {
     return fullPath.indexOf(menuPath) === 0
   },
   genMenues(parents, result = [], prePath = '/') {
-    console.log('genMenues', this)
     let menus = [];
     let ps = parents.filter(p => !p.hidden && p.auth);
     for (let p of ps) {
       let menu = { path: this.join(prePath, p.path), label: p.name };
-      if (p.children && p.children.length > 0) {
-        menu.children = this.genMenues(p.children, result, p.path);
+      if (p.children && p.children.length > 0) { //页面权限
+        menu.children = this.genMenues(p.children, result, menu.path);
+      } else if (p.cmpAuth && p.cmpAuth.length > 0) { //组件权限
+        // console.log('组件权限',prePath, p.cmpAuth)
+        menu.children = p.cmpAuth.map(cmp => {
+          return {
+            path: this.join(menu.path, cmp.key),
+            label: cmp.name
+          }
+        });
       }
+      // console.log('menu', JSON.stringify(menu))
       menus.push(menu);
     }
+
     return menus;
   }
 };
