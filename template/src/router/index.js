@@ -53,7 +53,7 @@ router.beforeEach((to, from, next) => {
         //写入store供左菜单读取
         store.commit(SET_LOCAL, { field: 'accessedRouters', val: accessedRouters })
         loadRoutes = true;
-        next(to.path);
+        next(to);
       }
 
     }
