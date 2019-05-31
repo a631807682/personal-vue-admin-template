@@ -29,7 +29,7 @@ router.beforeEach((to, from, next) => {
   }
 
   let user = localStore.getUser();
-  if (!user) {
+  if (!user || !user.role) {
     next({ path: '/login' })
   } else {
     //异步挂载路由
@@ -44,8 +44,8 @@ router.beforeEach((to, from, next) => {
       } else {
         accessedRouters = asyncRouterMap;
       }
-      
-      console.log('accessedRouters', accessedRouters )
+
+      console.log('accessedRouters', accessedRouters)
 
       if (accessedRouters.length > 0) {
         //添加路由

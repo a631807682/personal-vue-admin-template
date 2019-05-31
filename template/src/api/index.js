@@ -11,6 +11,7 @@ import { localStore } from 'src/lib/utils'
 import * as user from 'src/api/user'
 import * as role from 'src/api/role'
 import * as personal from 'src/api/personal'
+import * as tokenService from 'src/api/token'
 
 import * as upload from 'src/api/upload'
 
@@ -42,7 +43,7 @@ axios.interceptors.response.use(response => {
   let { response } = error;
   if (!response) {
     //network error
-    store.commit(SET_HTTP_ERROR, '网络异常');
+    store.commit(SET_HTTP_ERROR, 'Network Error');
     return Promise.reject(error)
   }
   let { status, data, config } = response;
@@ -53,12 +54,21 @@ axios.interceptors.response.use(response => {
     //触发catch 不在then中执行
     return Promise.reject(errorMsg);
   } else if (status === 401) { // 跳转登陆
-    // console.log('status === 401',data)
-    router.replace({
-      path: '/login',
-      query: { redirect: router.currentRoute.fullPath }
-    })
-    return Promise.reject(errorMsg);
+    let sysCode = response.data.sysCode;
+    console.log('sysCode', response.data.sysCode)
+    if (sysCode === 10002) {
+      // refresh续签后重试
+      return tokenService.getRefreshToken().then(() => {
+        return axios.request(config);
+      });
+
+    } else if (sysCode === 10003) {
+      router.replace({
+        path: '/login',
+        query: { redirect: router.currentRoute.fullPath }
+      })
+      return Promise.reject(errorMsg);
+    }
   } else {
     // 其他接口及错误
     store.commit(SET_HTTP_ERROR, { status, data })

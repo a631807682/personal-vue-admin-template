@@ -43,6 +43,10 @@ export const localStore = {
   },
   removeUser: function() {
     localStorage.removeItem(this.userKey)
+  },
+  getRefreshToken: function() {
+    let user = this.getItem(this.userKey)
+    return user ? user.refresh_token : '';
   }
 };
 
@@ -82,5 +86,3 @@ export const menuHelper = {
     return menus;
   }
 };
-
-
