@@ -4,7 +4,6 @@ import router from 'src/router'
 
 import store from 'src/store'
 import { SET_HTTP_ERROR, SET_BUSINESS_ERROR } from 'src/store/mutation-types'
-import config from 'src/config'
 import { localStore } from 'src/lib/utils'
 
 //api
@@ -15,10 +14,8 @@ import * as tokenService from 'src/api/token'
 
 import * as upload from 'src/api/upload'
 
-
 // 服务地址
-const {  backend } = config;
-const backendHost = process.env.API_HOST + backend;
+const backendHost = process.env.API_HOST + process.env.BACKEND;
 
 // 登陆接口正则
 const loginRegex = new RegExp(/^\/user\/signIn/);
@@ -83,4 +80,3 @@ export const personalService = personal;
 
 export const uploadPath = backendHost + upload.uploadPath;
 export const apkUploadPath = backendHost + upload.apkUploadPath;
-

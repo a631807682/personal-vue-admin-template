@@ -1,4 +1,5 @@
 module.exports = {
   NODE_ENV: '"production"',
-  API_HOST: '"http://127.0.0.1"'
+  API_HOST: '"http://127.0.0.1"',
+  BACKEND: '"/backend"',
 }
