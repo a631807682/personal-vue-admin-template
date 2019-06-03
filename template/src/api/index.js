@@ -64,6 +64,7 @@ axios.interceptors.response.use(response => {
         path: '/login',
         query: { redirect: router.currentRoute.fullPath }
       })
+      location.reload(); //刷新路由
       return Promise.reject(errorMsg);
     }
   } else {
