@@ -29,7 +29,7 @@
     </el-table>
     <!--分页-->
     <el-col :span="24" class="toolbar">
-      <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="limit" :total="total" background style="float:right;">
+      <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :current-page.sync="page" :page-size="limit" :total="total" background style="float:right;">
       </el-pagination>
     </el-col>
     <!--新增界面-->
@@ -90,8 +90,8 @@ export default {
       roles: [],
       //分页
       total: 0,
-      // page: 1,
-      limit: 10,
+      page: 1,
+      limit: 1,
       //新增界面
       addFormVisible: false,
       addForm: {
@@ -132,10 +132,8 @@ export default {
   },
   methods: {
     dateTimeFormat,
-    getUsers(page = 1) {
-      let limit = this.limit;
-      let start = (page - 1) * limit;
-      userService.getUsers(page, limit).then((res) => {
+    getUsers() {
+      userService.getUsers(this.page, this.limit).then((res) => {
         this.total = res.count;
         this.users = res.rows;
       });
@@ -146,7 +144,7 @@ export default {
       })
     },
     handleCurrentChange(page) {
-      this.getUsers(page);
+      this.getUsers();
     },
     handleAdd() {
       this.addFormVisible = true;
@@ -177,6 +175,9 @@ export default {
         type: 'warning'
       }).then(() => {
         userService.deleteUser(row.id).then(() => {
+          let pageCount = Math.ceil((this.total - 1) / this.limit);
+          let page = this.page > pageCount ? pageCount : this.page;
+          this.page = page > 0 ? page : 1;
           // 更新列表
           this.getUsers();
           this.$message({
