@@ -2,28 +2,27 @@
   <el-row class="container">
     <!-- 头部导航 -->
     <el-col :span="24" class="header">
-      <el-col :span="10" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">
-        \{{collapsed?'':sysName }}
-      </el-col>
-      <el-col :span="10">
-        <div class="tools" @click.prevent="collapse">
-          <!--  <i class="fa fa-align-justify"></i> -->
-          <font-awesome-icon icon="align-justify" size="1x"></font-awesome-icon>
-        </div>
-      </el-col>
-      <el-col :span="4" class="userinfo">
-        <el-dropdown trigger="hover">
-          <span class="el-dropdown-link userinfo-inner">
-                <img src="/static/img/default-user.png" /> \{{sysUserName}}
-                </span>
+      <div class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">
+        <router-link class="txt" to="/"> {{collapsed?'':sysName }}</router-link>
+      </div>
+      <div class="tools" @click.prevent="collapsed=!collapsed">
+        <font-awesome-icon icon="align-justify" size="1x"></font-awesome-icon>
+      </div>
+      <div class="userinfo">
+        <el-dropdown trigger="click">
+          <div class="el-dropdown-link userinfo-inner">
+            <img src="/static/img/default-user.png"  />
+            <span>{{sysUserName}}</span>
+          </div>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item @click.native="$router.push('/personal/password')">
+            <el-dropdown-item @click.native.prevent="$router.push('/personal/password')">
               <span>设置</span>
             </el-dropdown-item>
-            <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
+            <el-dropdown-item divided @click.native.prevent="logout">
+              <span>退出登录</span></el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-      </el-col>
+      </div>
     </el-col>
     <el-col :span="24" class="main">
       <!-- 左侧菜单 -->
@@ -33,10 +32,10 @@
         <div class="grid-content bg-purple-light">
           <!-- 子导航 -->
           <el-col :span="24" class="breadcrumb-container">
-            <strong class="title">\{{$route.name}}</strong>
+            <strong class="title">{{$route.name}}</strong>
             <el-breadcrumb separator="/" class="breadcrumb-inner">
               <el-breadcrumb-item v-for="item in $route.matched" :key="item.path">
-                \{{ item.name }}
+                {{ item.name }}
               </el-breadcrumb-item>
             </el-breadcrumb>
           </el-col>
@@ -56,8 +55,8 @@
 </template>
 <script>
 import Sidebar from 'src/views/Sidebar.vue'
-// import Sidebar from 'src/views/Sidebar-backup.vue'
 import ErrorNotify from 'src/components/ErrorNotify.vue'
+import { isMobile } from 'src/lib/utils'
 
 export default {
   name: 'home',
@@ -73,17 +72,18 @@ export default {
   computed: {
 
   },
+  watch: {
+    collapsed(val) {
+      this.$store.dispatch('local', { field: 'collapsed', val });
+    }
+  },
   components: {
     Sidebar,
     ErrorNotify
   },
   methods: {
+    isMobile,
     //折叠导航栏
-    collapse: function() {
-      let state = !this.collapsed
-      this.$store.dispatch('local', { field: 'collapsed', val: state });
-      this.collapsed = state;
-    },
     changeTitle(vm) {
       if (vm.pageTitle) {
         document.title = `${vm.pageTitle}`;
@@ -99,15 +99,17 @@ export default {
       }).catch(() => {});
     }
   },
-  mounted() {
+  created() {
     let user = JSON.parse(localStorage.getItem('user'));
     this.sysUserName = user.username;
+    this.collapsed = this.isMobile();
   }
 }
 
 </script>
 <style scoped lang="scss">
 @import '~scss_vars';
+@import 'src/styles/mixin.scss';
 
 .container {
   position: absolute;
@@ -116,21 +118,29 @@ export default {
   width: 100%;
 
   .header {
-    height: 60px;
-    line-height: 60px;
     background: $color-primary;
     color: #fff;
 
+    div {
+      @include f_left;
+      height: 60px;
+      line-height: 60px;
+    }
+
+
     .userinfo {
       text-align: right;
-      padding-right: 35px;
+      padding-right: 1em;
       float: right;
 
       .userinfo-inner {
+        @include text-overflow;
+        width: 15vw;
         cursor: pointer;
         color: #fff;
 
         img {
+          @include sm-hidden;
           width: 40px;
           height: 40px;
           border-radius: 20px;
@@ -141,7 +151,6 @@ export default {
     }
 
     .logo {
-      //width:230px;
       height: 60px;
       font-size: 22px;
       padding-left: 20px;
@@ -158,18 +167,21 @@ export default {
 
       .txt {
         color: #fff;
+        text-decoration: none;
       }
+
     }
 
     .logo-width {
-      width: 230px;
+      width: 189px;
     }
 
     .logo-collapse-width {
-      width: 64px
+      width: 24px
     }
 
     .tools {
+
       padding: 0px 23px;
       width: 14px;
       height: 60px;
@@ -205,6 +217,7 @@ export default {
         }
 
         .breadcrumb-inner {
+          @include sm-hidden;
           float: right;
         }
       }
@@ -224,6 +237,8 @@ export default {
 
 </style>
 <style lang="scss">
+@import 'src/styles/base.scss';
+
 .toolbar {
   padding-right: 10px;
 

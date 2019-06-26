@@ -1,25 +1,19 @@
 <template>
-  <section :class="collapsed?'menu-collapsed':'menu-expanded'">
-    <el-menu  :collapse="collapsed" router unique-opened :default-active='defaultActive'>
+  <div class="menu" :class="collapsed?'collapsed':'expanded'">
+    <el-menu :collapse="collapsed" unique-opened :default-active='defaultActive'>
       <template v-for="(item,index) in accessedRouters" v-if="!item.hidden">
         <el-submenu :index="item.path">
           <template slot="title">
             <i :class="item.iconCls"></i>
-            <span slot="title">\{{item.name}}</span>
+            <span slot="title">{{item.name}}</span>
           </template>
-          <el-menu-item v-for="(child,cIndex) in item.children" v-if="!child.hidden" :index="pathJoin(item.path,child.path)" :class="actived(item.path,child.path)?'is-active':''">
-            \{{child.name}}
+          <el-menu-item v-for="(child,cIndex) in item.children" v-if="!child.hidden" :index="pathJoin(item.path,child.path)" :class="actived(item.path,child.path)?'is-active':''" @click="handleMenuClick(pathJoin(item.path,child.path),$event)">
+            {{child.name}}
           </el-menu-item>
         </el-submenu>
       </template>
-      <!--       <el-submenu :index="item.path" v-for="(item,index) in accessedRouters" v-if="!item.hidden">
-        <template slot="title"><i :class="item.iconCls"></i>\{{item.name}}</template>
-        <el-menu-item v-for="(child,cIndex) in item.children" v-if="!child.hidden" :index="pathJoin(item.path,child.path)" :class="actived(item.path,child.path)?'is-active':''">
-          \{{child.name}}
-        </el-menu-item>
-      </el-submenu> -->
     </el-menu>
-  </section>
+  </div>
 </template>
 <script>
 import { menuHelper } from 'src/lib/utils';
@@ -58,6 +52,13 @@ export default {
     handleselect: function(a, b) {},
     showMenu(i, status) {
       // this.$refs.menuCollapsed.getElementsByClassName('submenu-hook-' + i)[0].style.display = status ? 'block' : 'none';
+    },
+    handleMenuClick(path, vm) {
+      if (vm.$parent && vm.$parent.$options.name === 'ElSubmenu') {
+        vm.$parent.handleMouseleave();
+        vm.onMouseLeave();
+      }
+      this.$router.push(path);
     }
   },
   created() {
@@ -66,16 +67,17 @@ export default {
 }
 
 </script>
-<style lang='scss'>
+<style lang='scss' scoped>
+.menu {
+  border-right: solid 1px #e6e6e6;
+}
 
-
-.menu-collapsed {
+.collapsed {
   flex: 0 0 60px;
-  width: 60px;
 }
 
-.menu-expanded {
+.expanded {
   flex: 0 0 230px;
-  width: 230px;
 }
+
 </style>

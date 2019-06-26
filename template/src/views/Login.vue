@@ -1,6 +1,6 @@
 <template>
-  <section>
-    <el-form :model="loginForm" :rules="rules" ref="loginForm" label-position="left" label-width="0px" class="demo-ruleForm login-container">
+  <div class="login-container">
+    <el-form :model="loginForm" :rules="rules" ref="loginForm" label-position="left" label-width="0px" class="login-form">
       <h3 class="title">系统登录</h3>
       <el-form-item prop="username">
         <el-input type="text" v-model="loginForm.username" auto-complete="off" placeholder="账号"></el-input>
@@ -14,7 +14,7 @@
       </el-form-item>
     </el-form>
     <ErrorNotify></ErrorNotify>
-  </section>
+  </div>
 </template>
 <script>
 import { userService } from 'src/api';
@@ -65,26 +65,37 @@ export default {
 
 </script>
 <style lang="scss" scoped>
+@import 'src/styles/mixin.scss';
+
 .login-container {
-  /*box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02);*/
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  -moz-border-radius: 5px;
-  background-clip: padding-box;
-  margin: 180px auto;
-  width: 350px;
-  padding: 35px 35px 15px 35px;
-  background: #fff;
-  border: 1px solid #eaeaea;
-  box-shadow: 0 0 25px #cac6c6;
-  .title {
-    margin: 0px auto 40px auto;
-    text-align: center;
-    color: #505458;
+  @include relative;
+
+  .login-form {
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    background-clip: padding-box;
+
+    background: #fff;
+    border: 1px solid #eaeaea;
+    box-shadow: 0 0 25px #cac6c6;
+
+    @include fxied-center;
+    top: 40%;
+    width:22em;
+    padding: 35px 35px 15px 35px;
+
+    .title {
+      margin: 0px auto 40px auto;
+      text-align: center;
+      color: #505458;
+    }
+
+    .remember {
+      margin: 0px 0px 35px 0px;
+    }
   }
-  .remember {
-    margin: 0px 0px 35px 0px;
-  }
+
 }
 
 </style>

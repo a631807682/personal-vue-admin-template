@@ -1,6 +1,6 @@
 <template>
   <section>
-    <el-col :span="12" style="padding-top:20px">
+    <el-col :span="12" :xs="24" style="padding-top:20px">
       <el-form :model="form" label-width="100px" ref="form" :rules="formRules">
         <el-form-item label="原始密码" prop="oldPassword">
           <el-input type="password" v-model="form.oldPassword"></el-input>

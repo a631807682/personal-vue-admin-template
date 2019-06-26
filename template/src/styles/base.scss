@@ -1,0 +1,10 @@
+.el-message-box {
+  width: auto !important;
+  min-width: 60%;
+}
+
+.el-dialog {
+  @media (max-width: 768px) {
+    width: 80%;
+  }
+}
