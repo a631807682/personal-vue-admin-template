@@ -3,7 +3,7 @@
     <!-- 头部导航 -->
     <el-col :span="24" class="header">
       <div class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">
-        <router-link class="txt" to="/"> {{collapsed?'':sysName }}</router-link>
+        <router-link class="txt" to="/"> \{{collapsed?'':sysName }}</router-link>
       </div>
       <div class="tools" @click.prevent="collapsed=!collapsed">
         <font-awesome-icon icon="align-justify" size="1x"></font-awesome-icon>
@@ -12,7 +12,7 @@
         <el-dropdown trigger="click">
           <div class="el-dropdown-link userinfo-inner">
             <img src="/static/img/default-user.png"  />
-            <span>{{sysUserName}}</span>
+            <span>\{{sysUserName}}</span>
           </div>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item @click.native.prevent="$router.push('/personal/password')">
@@ -32,10 +32,10 @@
         <div class="grid-content bg-purple-light">
           <!-- 子导航 -->
           <el-col :span="24" class="breadcrumb-container">
-            <strong class="title">{{$route.name}}</strong>
+            <strong class="title">\{{$route.name}}</strong>
             <el-breadcrumb separator="/" class="breadcrumb-inner">
               <el-breadcrumb-item v-for="item in $route.matched" :key="item.path">
-                {{ item.name }}
+                \{{ item.name }}
               </el-breadcrumb-item>
             </el-breadcrumb>
           </el-col>
