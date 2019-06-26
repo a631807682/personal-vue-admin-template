@@ -5,10 +5,10 @@
         <el-submenu :index="item.path">
           <template slot="title">
             <i :class="item.iconCls"></i>
-            <span slot="title">{{item.name}}</span>
+            <span slot="title">\{{item.name}}</span>
           </template>
           <el-menu-item v-for="(child,cIndex) in item.children" v-if="!child.hidden" :index="pathJoin(item.path,child.path)" :class="actived(item.path,child.path)?'is-active':''" @click="handleMenuClick(pathJoin(item.path,child.path),$event)">
-            {{child.name}}
+            \{{child.name}}
           </el-menu-item>
         </el-submenu>
       </template>
