@@ -91,7 +91,7 @@ export default {
       //分页
       total: 0,
       page: 1,
-      limit: 1,
+      limit: 10,
       //新增界面
       addFormVisible: false,
       addForm: {
