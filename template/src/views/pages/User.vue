@@ -6,17 +6,15 @@
     </el-col>
     <!--列表-->
     <el-table :data="users" highlight-current-row style="width: 100%;">
-      <el-table-column type="index">
+      <el-table-column prop="id" label="ID" fixed>
       </el-table-column>
-      <el-table-column prop="id" label="ID" sortable>
+      <el-table-column prop="username" label="用户邮箱">
       </el-table-column>
-      <el-table-column prop="username" label="用户邮箱" sortable>
+      <el-table-column prop="role.name" label="用户角色">
       </el-table-column>
-      <el-table-column prop="role.name" label="用户角色" sortable>
+      <el-table-column prop="lastLoginDate" :formatter="dateTimeFormat" label="最后登录时间">
       </el-table-column>
-      <el-table-column prop="lastLoginDate" :formatter="dateTimeFormat" label="最后登录时间" sortable>
-      </el-table-column>
-      <el-table-column prop="createdAt" :formatter="dateTimeFormat" label="创建时间" sortable>
+      <el-table-column prop="createdAt" :formatter="dateTimeFormat" label="创建时间">
       </el-table-column>
       <el-table-column label="操作" width="150">
         <template scope="scope">
