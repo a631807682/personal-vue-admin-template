@@ -1,55 +1,81 @@
 <template>
   <el-row class="container">
     <!-- 头部导航 -->
-    <el-col :span="24" class="header">
-      <div class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">
-        <router-link class="txt" to="/"> \{{collapsed?'':sysName }}</router-link>
+    <el-col
+      :span="24"
+      class="header">
+      <div
+        :class="collapsed?'logo-collapse-width':'logo-width'"
+        class="logo">
+        <router-link
+          class="txt"
+          to="/"> \{{ collapsed?'':sysName }}</router-link>
       </div>
-      <div class="tools" @click.prevent="collapsed=!collapsed">
-        <font-awesome-icon icon="align-justify" size="1x"></font-awesome-icon>
+      <div
+        class="tools"
+        @click.prevent="collapsed=!collapsed">
+        <font-awesome-icon
+          icon="align-justify"
+          size="1x"/>
       </div>
       <div class="userinfo">
         <el-dropdown trigger="click">
           <div class="el-dropdown-link userinfo-inner">
-            <img src="/static/img/default-user.png"  />
-            <span>\{{sysUserName}}</span>
+            <img src="/static/img/default-user.png" >
+            <span>\{{ sysUserName }}</span>
           </div>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item @click.native.prevent="$router.push('/personal/password')">
               <span>设置</span>
             </el-dropdown-item>
-            <el-dropdown-item divided @click.native.prevent="logout">
-              <span>退出登录</span></el-dropdown-item>
+            <el-dropdown-item
+              divided
+              @click.native.prevent="logout">
+            <span>退出登录</span></el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
     </el-col>
-    <el-col :span="24" class="main">
+    <el-col
+      :span="24"
+      class="main">
       <!-- 左侧菜单 -->
-      <Sidebar></Sidebar>
+      <Sidebar/>
       <!-- 右侧内容 -->
       <section class="content-container">
         <div class="grid-content bg-purple-light">
           <!-- 子导航 -->
-          <el-col :span="24" class="breadcrumb-container">
-            <strong class="title">\{{$route.name}}</strong>
-            <el-breadcrumb separator="/" class="breadcrumb-inner">
-              <el-breadcrumb-item v-for="item in $route.matched" :key="item.path">
+          <el-col
+            :span="24"
+            class="breadcrumb-container">
+            <strong class="title">\{{ $route.name }}</strong>
+            <el-breadcrumb
+              separator="/"
+              class="breadcrumb-inner">
+              <el-breadcrumb-item
+                v-for="item in $route.matched"
+                :key="item.path">
                 \{{ item.name }}
               </el-breadcrumb-item>
             </el-breadcrumb>
           </el-col>
           <!-- 内容 -->
-          <el-col :span="24" class="content-wrapper">
-            <transition name="fade" mode="out-in">
-              <router-view></router-view>
+          <el-col
+            :span="24"
+            class="content-wrapper">
+            <transition
+              name="fade"
+              mode="out-in">
+              <router-view/>
             </transition>
           </el-col>
         </div>
       </section>
     </el-col>
-    <el-col :span="24" class="dialogs">
-      <ErrorNotify></ErrorNotify>
+    <el-col
+      :span="24"
+      class="dialogs">
+      <ErrorNotify/>
     </el-col>
   </el-row>
 </template>
@@ -59,8 +85,12 @@ import ErrorNotify from 'src/components/ErrorNotify.vue'
 import { isMobile } from 'src/lib/utils'
 
 export default {
-  name: 'home',
-  data() {
+  name: 'Home',
+  components: {
+    Sidebar,
+    ErrorNotify
+  },
+  data () {
     return {
       sysName: '轨廓形检管理后台',
       sysEnv: '',
@@ -73,42 +103,38 @@ export default {
 
   },
   watch: {
-    collapsed(val) {
-      this.$store.dispatch('local', { field: 'collapsed', val });
+    collapsed (val) {
+      this.$store.dispatch('local', { field: 'collapsed', val })
     }
   },
-  components: {
-    Sidebar,
-    ErrorNotify
+  created () {
+    let user = JSON.parse(localStorage.getItem('user'))
+    this.sysUserName = user.username
+    this.collapsed = this.isMobile()
   },
   methods: {
     isMobile,
-    //折叠导航栏
-    changeTitle(vm) {
+    // 折叠导航栏
+    changeTitle (vm) {
       if (vm.pageTitle) {
-        document.title = `${vm.pageTitle}`;
+        document.title = `${vm.pageTitle}`
       }
     },
-    logout: function() {
+    logout: function () {
       this.$confirm('确认退出吗?', '提示', {
-        //type: 'warning'
+        // type: 'warning'
       }).then(() => {
-        localStorage.removeItem('user');
-        this.$router.push('/login');
-        location.reload(); //刷新路由
-      }).catch(() => {});
+        localStorage.removeItem('user')
+        this.$router.push('/login')
+        location.reload() // 刷新路由
+      }).catch(() => {})
     }
-  },
-  created() {
-    let user = JSON.parse(localStorage.getItem('user'));
-    this.sysUserName = user.username;
-    this.collapsed = this.isMobile();
   }
 }
 
 </script>
 <style scoped lang="scss">
-@import '~scss_vars';
+@import 'src/styles/vars';
 @import 'src/styles/mixin.scss';
 
 .container {
@@ -126,7 +152,6 @@ export default {
       height: 60px;
       line-height: 60px;
     }
-
 
     .userinfo {
       text-align: right;

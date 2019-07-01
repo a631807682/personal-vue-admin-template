@@ -12,8 +12,6 @@
 //   }
 // }
 
-
-
 /*
   启用状态
  */
@@ -26,4 +24,4 @@ export const Status = {
     name: '上线'
   }],
   default: 'OFFLINE'
-};
+}

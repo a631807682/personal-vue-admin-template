@@ -1,15 +1,25 @@
 <template>
   <section>
-    <el-table :data="tfData" row-class-name="tf-row" v-bind="$attrs">
-      <slot></slot>
-      <el-table-column label="操作" width="80">
+    <el-table
+      :data="tfData"
+      v-bind="$attrs"
+      row-class-name="tf-row">
+      <slot />
+      <el-table-column
+        label="操作"
+        width="80">
         <template scope="scope">
-          <el-button type="danger" icon="el-icon-delete" @click="handleDel(scope.$index)"></el-button>
+          <el-button
+            type="danger"
+            icon="el-icon-delete"
+            @click="handleDel(scope.$index)" />
         </template>
       </el-table-column>
       <template slot="append">
-        <el-button class="btn-add" @click="handleAdd">
-          <i class="el-icon-plus"></i>
+        <el-button
+          class="btn-add"
+          @click="handleAdd">
+          <i class="el-icon-plus"/>
           <span>新增一条记录</span>
         </el-button>
       </template>
@@ -17,30 +27,39 @@
   </section>
 </template>
 <script>
-import { deepCopy } from 'src/lib/utils';
+import { deepCopy } from 'src/lib/utils'
 
 export default {
-  data() {
+  props: {
+    data: {
+      type: Array,
+      required: true
+    },
+    emptyRow: {
+      type: Object,
+      required: true
+    }
+  },
+  data () {
     return {}
   },
-  props: ['data', 'emptyRow'],
   computed: {
     tfData: {
-      get() {
-        return this.data;
+      get () {
+        return this.data
       },
-      set(val) {
+      set (val) {
         this.$emit('update:data', val)
       }
     }
   },
   methods: {
     deepCopy,
-    handleAdd() {
-      let emptyRow = this.deepCopy(this.emptyRow);
-      this.tfData.push(emptyRow);
+    handleAdd () {
+      let emptyRow = this.deepCopy(this.emptyRow)
+      this.tfData.push(emptyRow)
     },
-    handleDel(index) {
+    handleDel (index) {
       this.tfData.splice(index, 1)
     }
   }

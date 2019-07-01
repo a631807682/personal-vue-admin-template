@@ -1,6 +1,4 @@
-import api from "../api"
 import * as types from './mutation-types'
-
 
 /**
  * 清楚错误信息
@@ -8,7 +6,7 @@ import * as types from './mutation-types'
  * @return {[type]}                [description]
  */
 export const clearError = ({ commit }) => {
-	commit(types.CLEAR_ERROR)
+  commit(types.CLEAR_ERROR)
 }
 
 /**
@@ -19,6 +17,5 @@ export const clearError = ({ commit }) => {
  * @return {[type]}                [description]
  */
 export const local = ({ commit }, { field, val }) => {
-	commit(types.SET_LOCAL, { field, val })
+  commit(types.SET_LOCAL, { field, val })
 }
-

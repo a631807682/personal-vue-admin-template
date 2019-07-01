@@ -1,28 +1,52 @@
 <template>
   <div class="login-container">
-    <el-form :model="loginForm" :rules="rules" ref="loginForm" label-position="left" label-width="0px" class="login-form">
+    <el-form
+      ref="loginForm"
+      :model="loginForm"
+      :rules="rules"
+      label-position="left"
+      label-width="0px"
+      class="login-form">
       <h3 class="title">系统登录</h3>
       <el-form-item prop="username">
-        <el-input type="text" v-model="loginForm.username" auto-complete="off" placeholder="账号"></el-input>
+        <el-input
+          v-model="loginForm.username"
+          type="text"
+          auto-complete="off"
+          placeholder="账号"/>
       </el-form-item>
       <el-form-item prop="password">
-        <el-input type="password" v-model="loginForm.password" auto-complete="off" placeholder="密码"></el-input>
+        <el-input
+          v-model="loginForm.password"
+          type="password"
+          auto-complete="off"
+          placeholder="密码"/>
       </el-form-item>
-      <el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox>
+      <el-checkbox
+        v-model="checked"
+        checked
+        class="remember">记住密码</el-checkbox>
       <el-form-item style="width:100%;">
-        <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit" :loading="logining">登录</el-button>
+        <el-button
+          :loading="logining"
+          type="primary"
+          style="width:100%;"
+          @click.native.prevent="handleSubmit">登录</el-button>
       </el-form-item>
     </el-form>
-    <ErrorNotify></ErrorNotify>
+    <ErrorNotify/>
   </div>
 </template>
 <script>
-import { userService } from 'src/api';
+import { userService } from 'src/api'
 import { localStore } from 'src/lib/utils'
 import ErrorNotify from 'src/components/ErrorNotify.vue'
 
 export default {
-  data() {
+  components: {
+    ErrorNotify
+  },
+  data () {
     return {
       logining: false,
       loginForm: {
@@ -38,27 +62,23 @@ export default {
         ]
       },
       checked: true
-    };
-  },
-  components: {
-    ErrorNotify
+    }
   },
   methods: {
-    handleSubmit() {
+    handleSubmit () {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          let params = this.loginForm;
+          let params = this.loginForm
           userService.login(params).then(user => {
-
             console.log('login user', user)
             // localStorage.setItem('user', JSON.stringify(user));
-            localStore.saveUser(user);
+            localStore.saveUser(user)
 
-            let { redirect } = this.$route.query;
-            this.$router.push({ path: redirect || '/' });
-          });
+            let { redirect } = this.$route.query
+            this.$router.push({ path: redirect || '/' })
+          })
         }
-      });
+      })
     }
   }
 }
