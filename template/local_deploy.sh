@@ -1,8 +1,8 @@
 #!/bin/sh
 
-deployPath="/data/www/crack-detection"
+deployPath="/data/www/template"
 newPath="/data/www/dist"
-tmpPath="/tmp/crack-detection-old"
+tmpPath="/tmp/template-old"
 
 if [ -d "${newPath}" ]; then
   if [ -d "${deployPath}" ]; then
