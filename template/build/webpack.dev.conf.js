@@ -44,10 +44,6 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     watchOptions: {
       poll: config.dev.poll
     },
-    https: {
-      key: fs.readFileSync(path.resolve(__dirname, '../ssl/cert.key')),
-      cert: fs.readFileSync(path.resolve(__dirname, '../ssl/cert.pem'))
-    },
     disableHostCheck: true
   },
   plugins: [
