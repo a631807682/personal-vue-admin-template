@@ -13,6 +13,22 @@ export default new Vuex.Store({
     local,
     error
   },
-  actions
-
+  actions,
+  getters: {
+    toolbarExist: state => {
+      return state.local.toolbarExist
+    },
+    toolbarVisable: state => {
+      return state.local.toolbarVisable
+    },
+    isMobile: state => {
+      return state.local.isMobile
+    },
+    isCollapsed: state => {
+      return state.local.collapsed
+    },
+    user: state => {
+      return state.local.user
+    }
+  }
 })

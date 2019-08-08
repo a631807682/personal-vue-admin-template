@@ -1,17 +1,15 @@
 import axios from 'axios'
-import router from 'src/router'
 
+import router from 'src/router'
 import store from 'src/store'
 import { SET_HTTP_ERROR, SET_BUSINESS_ERROR } from 'src/store/mutation-types'
 import { localStore } from 'src/lib/utils'
-
-// api
+// 公共api
 import * as user from 'src/api/user'
 import * as role from 'src/api/role'
 import * as personal from 'src/api/personal'
-import * as tokenService from 'src/api/token'
-
 import * as upload from 'src/api/upload'
+import * as tokenService from 'src/api/token'
 
 // 服务地址
 const backendHost = process.env.API_HOST + process.env.BACKEND
@@ -21,7 +19,11 @@ const loginRegex = new RegExp(/^\/user\/signIn/)
 
 axios.defaults.baseURL = backendHost
 
-axios.interceptors.request.use(config => {
+// axios被HMR缓存 拦截器被多次加载
+axios.__requestInterceptor !== undefined && axios.interceptors.request.eject(axios.__requestInterceptor)
+axios.__responseInterceptor !== undefined && axios.interceptors.response.eject(axios.__responseInterceptor)
+
+axios.__requestInterceptor = axios.interceptors.request.use(config => {
   if (!loginRegex.test(config.url)) {
     config.headers.token = localStore.getToken()
   }
@@ -31,14 +33,13 @@ axios.interceptors.request.use(config => {
   return Promise.reject(error)
 })
 
-axios.interceptors.response.use(response => {
-  // console.log('success')
+axios.__responseInterceptor = axios.interceptors.response.use(response => {
   return response.data.result
 }, error => {
   let { response } = error
   if (!response) {
     // network error
-    store.commit(SET_HTTP_ERROR, 'Network Error')
+    store.commit(SET_HTTP_ERROR, '网络错误')
     return Promise.reject(error)
   }
   let { status, data, config } = response
@@ -62,6 +63,7 @@ axios.interceptors.response.use(response => {
         query: { redirect: router.currentRoute.fullPath }
       })
       location.reload() // 刷新路由
+
       return Promise.reject(errorMsg)
     }
   } else {
@@ -71,10 +73,9 @@ axios.interceptors.response.use(response => {
   }
 })
 
-// api
+// 公共api
 export const userService = user
 export const roleService = role
 export const personalService = personal
-
 export const uploadPath = backendHost + upload.uploadPath
 export const apkUploadPath = backendHost + upload.apkUploadPath

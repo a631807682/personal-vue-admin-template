@@ -1,43 +1,46 @@
 <template>
-  <section>
-    <el-col
-      :span="12"
-      :xs="24"
-      style="padding-top:20px">
-      <el-form
-        ref="form"
-        :model="form"
-        :rules="formRules"
-        label-width="100px">
-        <el-form-item
-          label="原始密码"
-          prop="oldPassword">
-          <el-input
-            v-model="form.oldPassword"
-            type="password"/>
-        </el-form-item>
-        <el-form-item
-          label="新密码"
-          prop="newPassword">
-          <el-input
-            v-model="form.newPassword"
-            type="password"/>
-        </el-form-item>
-        <el-form-item
-          label="确认密码"
-          prop="confirmPassword">
-          <el-input
-            v-model="form.confirmPassword"
-            type="password"/>
-        </el-form-item>
-        <el-form-item>
-          <el-button
-            type="primary"
-            @click="saveSubmit()">保存</el-button>
-        </el-form-item>
-      </el-form>
-    </el-col>
-  </section>
+  <div>
+    <c-form
+      :default-btns="false">
+      <template slot="toolbar"/>
+      <template slot="content">
+
+        <el-form
+          ref="form"
+          :model="form"
+          :rules="formRules"
+          label-width="100px">
+          <el-form-item
+            label="原始密码"
+            prop="oldPassword">
+            <el-input
+              v-model="form.oldPassword"
+              type="password"/>
+          </el-form-item>
+          <el-form-item
+            label="新密码"
+            prop="newPassword">
+            <el-input
+              v-model="form.newPassword"
+              type="password"/>
+          </el-form-item>
+          <el-form-item
+            label="确认密码"
+            prop="confirmPassword">
+            <el-input
+              v-model="form.confirmPassword"
+              type="password"/>
+          </el-form-item>
+          <el-form-item>
+            <el-button
+              class="fright"
+              type="primary"
+              @click="saveSubmit()">保存</el-button>
+          </el-form-item>
+        </el-form>
+      </template>
+    </c-form>
+  </div>
 </template>
 <script>
 import { personalService } from 'src/api'

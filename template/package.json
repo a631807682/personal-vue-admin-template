@@ -1,7 +1,7 @@
 {
-  "name": "webpack3-template",
+  "name": "personal-vue-admin-template",
   "version": "1.0.0",
-  "description": "A Vue.js project",
+  "description": "个人后台模板",
   "author": "a631807682 <631807682@qq.com>",
   "private": true,
   "scripts": {
@@ -9,19 +9,34 @@
     "start": "npm run dev",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "e2e": "node test/e2e/runner.js",
-    "test": "npm run unit && npm run e2e",
+    "test": "npm run unit",
+    "test:watch": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js",
     "lint": "eslint --ext .js,.vue src test/unit test/e2e/specs",
-    "build": "node build/build.js"
+    "build": "node build/build.js",
+    "autofix": "eslint --fix --ext .js,.vue src",
+    "scp": "scp -r dist local_deploy.sh root@192.168.20.185:/data/www/",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "init-cz": "commitizen init cz-conventional-changelog --save --save-exact --force"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.4",
     "@fortawesome/free-solid-svg-icons": "^5.3.1",
     "@fortawesome/vue-fontawesome": "^0.1.1",
-    "element-ui": "^2.10.0",
-    "moment": "^2.19.2",
-    "axios": "^0.19.0",
-    "vue": "^2.5.2",
-    "vue-router": "^3.0.1",
+    "agora-rtc-sdk": "^2.5.2",
+    "ansicolor": "^1.1.87",
+    "axios": "^0.17.1",
+    "bytes": "^3.1.0",
+    "dayjs": "^1.8.14",
+    "echarts": "^4.2.1",
+    "element-ui": "^2.10.1",
+    "socket.io-client": "^2.2.0",
+    "spark-md5": "^3.0.0",
+    "v-charts": "^1.19.0",
+    "vue": "^2.1.0",
+    "vue-baidu-map": "^0.21.20",
+    "vue-pull-to": "^0.1.7",
+    "vue-router": "^2.0.3",
+    "vue2-hammer": "^2.1.2",
     "vuex": "^2.0.0"
   },
   "devDependencies": {
@@ -34,6 +49,7 @@
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-runtime": "^6.22.0",
     "babel-plugin-transform-vue-jsx": "^3.5.0",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.3.2",
     "babel-preset-stage-2": "^6.22.0",
     "babel-register": "^6.22.0",
@@ -44,6 +60,7 @@
     "cross-env": "^5.0.1",
     "cross-spawn": "^5.0.1",
     "css-loader": "^0.28.0",
+    "cz-conventional-changelog": "^3.0.2",
     "eslint": "^4.15.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-friendly-formatter": "^3.0.0",
@@ -59,10 +76,9 @@
     "html-webpack-plugin": "^2.30.1",
     "inject-loader": "^3.0.0",
     "karma": "^1.4.1",
+    "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^1.1.1",
     "karma-mocha": "^1.3.0",
-    "karma-phantomjs-launcher": "^1.0.2",
-    "karma-phantomjs-shim": "^1.4.0",
     "karma-sinon-chai": "^1.3.1",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-spec-reporter": "0.0.31",
@@ -73,7 +89,6 @@
     "node-sass": "^4.12.0",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
     "ora": "^1.2.0",
-    "phantomjs-prebuilt": "^2.1.14",
     "portfinder": "^1.0.13",
     "postcss-import": "^11.0.0",
     "postcss-loader": "^2.0.8",
@@ -103,5 +118,10 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
 }

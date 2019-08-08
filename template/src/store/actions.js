@@ -16,6 +16,6 @@ export const clearError = ({ commit }) => {
  * @param  {[type]} val            [description]
  * @return {[type]}                [description]
  */
-export const local = ({ commit }, { field, val }) => {
-  commit(types.SET_LOCAL, { field, val })
-}
+// export const local = ({ commit }, { field, val }) => {
+//   commit(types.SET_LOCAL, { field, val })
+// }

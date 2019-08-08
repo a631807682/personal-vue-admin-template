@@ -1,9 +1,13 @@
 {
-  "env": { 
-    "mocha": true
+  "env": {
+    "mocha": true,
+    "es6": true
   },
-  "globals": { 
+  "globals": {
     "expect": true,
     "sinon": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2017
   }
 }

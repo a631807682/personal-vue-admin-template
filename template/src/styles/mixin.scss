@@ -186,3 +186,9 @@ $footer-height: 1.30666666rem;
     display: none;
   }
 }
+
+@mixin sm-display {
+  @media (min-width: 768px) {
+    display: none;
+  }
+}

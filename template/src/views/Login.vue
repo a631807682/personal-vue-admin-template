@@ -12,20 +12,20 @@
         <el-input
           v-model="loginForm.username"
           type="text"
-          auto-complete="off"
+          autocomplete="off"
           placeholder="账号"/>
       </el-form-item>
       <el-form-item prop="password">
         <el-input
           v-model="loginForm.password"
           type="password"
-          auto-complete="off"
+          autocomplete="off"
           placeholder="密码"/>
       </el-form-item>
-      <el-checkbox
+      <!-- <el-checkbox
         v-model="checked"
         checked
-        class="remember">记住密码</el-checkbox>
+        class="remember">记住密码</el-checkbox> -->
       <el-form-item style="width:100%;">
         <el-button
           :loading="logining"
@@ -34,13 +34,14 @@
           @click.native.prevent="handleSubmit">登录</el-button>
       </el-form-item>
     </el-form>
-    <ErrorNotify/>
+    <error-notify/>
   </div>
 </template>
 <script>
 import { userService } from 'src/api'
 import { localStore } from 'src/lib/utils'
 import ErrorNotify from 'src/components/ErrorNotify.vue'
+import { SET_LOCAL_USER } from 'src/store/mutation-types'
 
 export default {
   components: {
@@ -71,8 +72,8 @@ export default {
           let params = this.loginForm
           userService.login(params).then(user => {
             console.log('login user', user)
-            // localStorage.setItem('user', JSON.stringify(user));
             localStore.saveUser(user)
+            this.$store.commit(SET_LOCAL_USER, user)
 
             let { redirect } = this.$route.query
             this.$router.push({ path: redirect || '/' })

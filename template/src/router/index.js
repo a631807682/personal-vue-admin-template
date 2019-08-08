@@ -4,7 +4,7 @@ import VueRouter from 'vue-router'
 import { constantRouterMap } from 'src/router/constant'
 import { asyncRouterMap, generateRoutesFromMenu } from 'src/router/async'
 
-import { SET_LOCAL } from 'src/store/mutation-types'
+import { SET_LOCAL_ROUTERS, SET_LOCAL_USER } from 'src/store/mutation-types'
 import store from 'src/store'
 
 import { localStore } from 'src/lib/utils'
@@ -14,7 +14,10 @@ Vue.use(VueRouter)
 // 公共路由
 let router = new VueRouter({
   mode: 'history',
-  routes: constantRouterMap
+  routes: constantRouterMap,
+  scrollBehavior (to, from, savedPosition) {
+    return { x: 0, y: 0 }
+  }
 })
 
 // 避免重复更改路由
@@ -32,6 +35,7 @@ router.beforeEach((to, from, next) => {
   if (!user || !user.role) {
     next({ path: '/login' })
   } else {
+    store.commit(SET_LOCAL_USER, user)
     // 异步挂载路由
     if (!loadRoutes) {
       let accessedRouters = []
@@ -51,7 +55,7 @@ router.beforeEach((to, from, next) => {
         // 添加路由
         router.addRoutes(accessedRouters)
         // 写入store供左菜单读取
-        store.commit(SET_LOCAL, { field: 'accessedRouters', val: accessedRouters })
+        store.commit(SET_LOCAL_ROUTERS, accessedRouters)
         loadRoutes = true
         next(to)
       }

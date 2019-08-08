@@ -10,3 +10,37 @@
     width: 80%;
   }
 }
+
+.el-upload-dragger {
+  @media (max-width: 768px) {
+    width: auto;
+    padding: 0 15px;
+  }
+}
+
+.el-message {
+  @media (max-width: 768px) {
+    top: 60px !important;
+  }
+}
+
+.el-input-number {
+  @media (max-width: 768px) {
+    width: auto;
+  }
+}
+
+.el-table::before {
+  @media (max-width: 768px) {
+    height: 0;
+  }
+
+}
+
+.el-table--border::after,
+.el-table--group::after {
+  @media (max-width: 768px) {
+    width: 0;
+  }
+
+}

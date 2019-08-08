@@ -1,9 +1,10 @@
-import { localStore, menuHelper } from 'src/lib/utils'
+import { menuHelper } from 'src/lib/utils'
 
 export default {
   inserted (el, binding, vnode) {
     let hasPermission = false
-    let user = localStore.getUser()
+    let vm = vnode.context
+    let user = vm.$store.getters.user
     if (user) {
       if (user.role.isSuper) {
         hasPermission = true
@@ -16,8 +17,17 @@ export default {
       }
     }
 
+    // if (binding.value === 'editBtn') hasPermission = false
     if (!hasPermission) {
-      el.parentNode && el.parentNode.removeChild(el)
+      let instance = vnode.componentInstance || vnode.elm
+      // destroy ref
+      if (vnode.data.ref !== null && vnode.data.ref !== undefined) {
+        // console.log('remove ref', vnode.data.ref, vm.$refs[vnode.data.ref] === instance)
+        delete vm.$refs[vnode.data.ref]
+      }
+      // destroy component
+      instance.$destroy()
+      vnode.elm.parentElement && vnode.elm.parentElement.removeChild(vnode.elm)
     }
   }
 }

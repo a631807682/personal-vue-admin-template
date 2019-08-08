@@ -1,9 +1,8 @@
 <template>
-  <div
-    :class="collapsed?'collapsed':'expanded'"
-    class="menu">
+  <el-aside
+    :class="['menu',isMobile?'absolute':'']">
+    <slot name="header"/>
     <el-menu
-      :collapse="collapsed"
       :default-active="defaultActive"
       unique-opened>
       <template
@@ -28,20 +27,23 @@
         </el-submenu>
       </template>
     </el-menu>
-  </div>
+  </el-aside>
 </template>
 <script>
 import { menuHelper } from 'src/lib/utils'
-
+import { SET_LOCAL_COLLAPSED } from 'src/store/mutation-types'
 export default {
   name: 'Sidebar',
   data () {
     return {}
   },
   computed: {
-    collapsed () {
-      return this.$store.state.local.collapsed
+    isMobile () {
+      return this.$store.getters.isMobile
     },
+    // collapsed () {
+    //   return this.$store.state.local.collapsed
+    // },
     accessedRouters () {
       return this.$store.state.local.accessedRouters
     },
@@ -73,6 +75,11 @@ export default {
         vm.$parent.handleMouseleave()
         vm.onMouseLeave()
       }
+
+      if (this.isMobile) {
+        this.$store.commit(SET_LOCAL_COLLAPSED, true)
+      }
+
       this.$router.push(path)
     }
   }
@@ -82,14 +89,14 @@ export default {
 <style lang='scss' scoped>
 .menu {
   border-right: solid 1px #e6e6e6;
+  width: 200px;
+  height: 100vh;
+  background-color: #fff;
+  z-index: 50;
 }
 
-.collapsed {
-  flex: 0 0 60px;
-}
-
-.expanded {
-  flex: 0 0 230px;
+.absolute {
+  position: absolute;
 }
 
 </style>
