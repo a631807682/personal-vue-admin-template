@@ -1,4 +1,4 @@
-import SparkMD5 from 'spark-md5'
+// import SparkMD5 from 'spark-md5'
 /**
  * 正则
  */
@@ -102,39 +102,39 @@ export const isMobile = () => {
   }
 }
 
-export const md5File = (file) => {
-  return new Promise((resolve, reject) => {
-    let spark = new SparkMD5.ArrayBuffer()
-    let fileReader = new FileReader()
+// export const md5File = (file) => {
+//   return new Promise((resolve, reject) => {
+//     let spark = new SparkMD5.ArrayBuffer()
+//     let fileReader = new FileReader()
 
-    let chunkSize = 2097152
-    let chunks = Math.ceil(file.size / chunkSize)
-    let currentChunk = 0
+//     let chunkSize = 2097152
+//     let chunks = Math.ceil(file.size / chunkSize)
+//     let currentChunk = 0
 
-    fileReader.onload = function (e) {
-      spark.append(e.target.result) // Append array buffer
-      currentChunk++
+//     fileReader.onload = function (e) {
+//       spark.append(e.target.result) // Append array buffer
+//       currentChunk++
 
-      if (currentChunk < chunks) {
-        loadNext()
-      } else {
-        resolve(spark.end())
-      }
-    }
+//       if (currentChunk < chunks) {
+//         loadNext()
+//       } else {
+//         resolve(spark.end())
+//       }
+//     }
 
-    function loadNext () {
-      let start = currentChunk * chunkSize
-      let end = ((start + chunkSize) >= file.size) ? file.size : start + chunkSize
+//     function loadNext () {
+//       let start = currentChunk * chunkSize
+//       let end = ((start + chunkSize) >= file.size) ? file.size : start + chunkSize
 
-      let chunkBlob = file.slice(start, end)
-      fileReader.readAsArrayBuffer(chunkBlob)
-    }
+//       let chunkBlob = file.slice(start, end)
+//       fileReader.readAsArrayBuffer(chunkBlob)
+//     }
 
-    fileReader.onerror = () => reject(new Error('md5 file error'))
+//     fileReader.onerror = () => reject(new Error('md5 file error'))
 
-    loadNext()
-  })
-}
+//     loadNext()
+//   })
+// }
 
 export const debounce = (func, wait, immediate = true) => {
   let timeout
