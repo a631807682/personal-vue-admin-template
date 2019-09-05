@@ -92,8 +92,8 @@ describe('ListTable', () => {
     }
 
     describe('Rendering data is correct', () => {
-      vm = createMobileTable()
       before(async () => {
+        vm = createMobileTable()
         await waitForEvent(vm.$refs.listTable, 'loaded')
       })
 
