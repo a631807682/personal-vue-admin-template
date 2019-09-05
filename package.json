@@ -1,0 +1,19 @@
+{
+  "name": "personal-vue-admin-template",
+  "version": "1.0.0",
+  "description": "个人后台管理系统模板\r",
+  "dependencies": {},
+  "devDependencies": {
+    "vue-cli": "^2.8.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/a631807682/personal-vue-admin-template.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/a631807682/personal-vue-admin-template/issues"
+  },
+  "homepage": "https://github.com/a631807682/personal-vue-admin-template#readme"
+}
