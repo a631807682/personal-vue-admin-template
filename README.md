@@ -1,4 +1,4 @@
-# 个人后台管理系统模板 [![Actions Status](https://github.com/a631807682/personal-vue-admin-template/workflows/vue-template/badge.svg)](https://github.com/a631807682/personal-vue-admin-template/actions)
+# 个人后台管理系统模板 [![Actions Status](https://github.com/a631807682/personal-vue-admin-template/workflows/template/badge.svg)](https://github.com/a631807682/personal-vue-admin-template/actions)
 
 ### 使用
 ---
