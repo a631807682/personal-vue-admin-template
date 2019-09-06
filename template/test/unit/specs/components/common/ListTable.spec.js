@@ -54,7 +54,8 @@ describe('ListTable', () => {
       testDataArr.push('')// 操作栏
     })
 
-    const createMobileTable = function () {
+    const createMobileTable = function (mountedCb) {
+      function noop () {}
       return createVue({
         template: `
         <c-list-table
@@ -87,14 +88,16 @@ describe('ListTable', () => {
               })
             })
           }
-        }
+        },
+        mounted: mountedCb || noop
       }, true)
     }
 
     describe('Rendering data is correct', () => {
-      before(async () => {
-        vm = createMobileTable()
-        await waitForEvent(vm.$refs.listTable, 'loaded')
+      before((done) => {
+        vm = createMobileTable(function () {
+          waitForEvent(this.$refs.listTable, 'loaded').then(done)
+        })
       })
 
       after(() => {
